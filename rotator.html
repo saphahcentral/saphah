@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resource Library Rotator</title>
+<link rel="stylesheet" href="https://saphahcentral.github.io/saphahcentral/style-public.css">
+<style>
+  body {
+    background-color: black;
+    color: #00FF00;
+    font-family: monospace;
+    padding: 20px;
+  }
+  h2 {
+    color: #FFD700;
+    margin-bottom: 10px;
+  }
+  iframe {
+    width: 100%;
+    height: 600px;
+    border: 2px solid #00FF00;
+  }
+</style>
+</head>
+<body>
+
+<div style="text-align:center; margin-bottom:20px;">
+    <img src="https://drive.google.com/file/d/1MDEMAPXQCsh-jJOrV7alnyerC8-9lGEn/view?usp=drive_link" 
+         alt="RECOMMENDS BANNER" width="1000" height="250">
+    <br />
+</div>
+
+<hr />
+
+<iframe id="rotator-frame" src=""></iframe>
+
+<script>
+// List of index.html pages to rotate
+const pages = [
+  "https://saphahcentral.github.io/saphahcentral/index.html",
+  "https://saphahcentral.github.io/soar2024/index.html",
+  "https://saphahcentral.github.io/dom6027/index.html",
+  "https://saphahcentral.github.io/dom6027-library/index.html",
+  "https://saphahcentral.github.io/dots6027/index.html",
+  "https://saphahcentral.github.io/dows6027/index.html"
+];
+
+// Select one page at random
+const randomPage = pages[Math.floor(Math.random() * pages.length)];
+
+// Load into iframe
+document.getElementById("rotator-frame").src = randomPage;
+</script>
+
+</body>
+</html>
