@@ -1,0 +1,50 @@
+/* INTERNAL PAGES - Technical/Console Theme */
+
+body {
+  background-color: #000; /* black */
+  color: #00ff00; /* bright green text */
+  font-family: monospace, monospace;
+  padding: 20px;
+  margin: 0;
+}
+
+h1, h2, h3 {
+  color: #ffd700; /* gold headings */
+}
+
+a {
+  color: #00ccff;
+  text-decoration: underline;
+}
+a:hover {
+  color: #ff6600;
+}
+
+/* Call-to-action buttons */
+a.cta {
+  display: inline-block;
+  margin: 10px 0;
+  padding: 12px 20px;
+  font-weight: bold;
+  color: blue;
+  background-color: wheat;
+  text-decoration: underline;
+  transition: all 0.3s;
+}
+a.cta:hover {
+  background-color: #ffd700;
+  color: black;
+}
+
+.section {
+  margin: 20px 0;
+  border-bottom: 1px solid #00ff00;
+  padding-bottom: 15px;
+}
+
+.teaser {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #111;
+  border-left: 4px solid #00ff00;
+}
