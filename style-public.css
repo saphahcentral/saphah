@@ -1,0 +1,67 @@
+/* PUBLIC PAGES - Nature Theme */
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #fdfcf7; /* soft off-white */
+  color: #222; /* dark text for readability */
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Headings */
+h1, h2, h3 {
+  font-family: "Georgia", serif;
+  color: #2e5e2e; /* deep green */
+  margin-top: 20px;
+}
+
+/* Links */
+a {
+  color: #0055aa;
+  text-decoration: underline;
+}
+a:hover {
+  color: #2e5e2e; /* shift to green on hover */
+}
+
+/* Call-to-action buttons */
+a.cta {
+  display: inline-block;
+  background-color: #4caf50; /* green */
+  color: white;
+  padding: 10px 18px;
+  margin: 10px 0;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+a.cta:hover {
+  background-color: #2e5e2e; /* darker green */
+}
+
+/* Sections */
+.section {
+  margin: 30px 0;
+  padding: 15px;
+  background-color: #e6f4e6; /* pale green background */
+  border-left: 6px solid #4caf50;
+  border-radius: 6px;
+}
+
+.teaser {
+  margin: 12px 0;
+  padding: 12px;
+  background-color: #f9fdf9;
+  border-left: 4px solid #0055aa;
+}
+
+/* Footer */
+footer {
+  background-color: #2e5e2e;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  margin-top: 40px;
+}
