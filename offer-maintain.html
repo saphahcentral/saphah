@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEO & Maintenance Package - SAPHAH</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-local.css">
+  <script src="includes-public.js" defer></script>
+  <script>
+    function showPrice() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const isEmail = urlParams.get('src') === 'email';
+      const normalPrice = 'R4999';
+      const discountPrice = 'R2499';
+      document.getElementById('price').textContent = isEmail ? discountPrice : normalPrice;
+      document.getElementById('offer-note').textContent = isEmail
+        ? 'Exclusive Tornado Funnel Subscriber Offer – 50% Off!'
+        : 'Standard Offer – Full Price applies.';
+    }
+    window.onload = showPrice;
+  </script>
+</head>
+<body>
+  <div id="header"></div>
+
+  <main class="offer">
+    <h1>SEO & Maintenance Package</h1>
+    <p>Let us handle optimization, updates, and ongoing improvements while you focus on growth.</p>
+
+    <ul>
+      <li>Monthly SEO and traffic optimization</li>
+      <li>Regular backups and system updates</li>
+      <li>Performance reports and recommendations</li>
+    </ul>
+
+    <h2 id="offer-note"></h2>
+    <p><strong>Price: <span id="price"></span></strong></p>
+
+    <a href="mailto:admin@saphah.net?subject=SEO%20and%20Maintenance%20Order" class="btn">Order Now</a>
+  </main>
+
+  <div id="footer"></div>
+</body>
+</html>
