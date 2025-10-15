@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Creation Package - SAPHAH</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-local.css">
+  <script src="includes-public.js" defer></script>
+  <script>
+    function showPrice() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const isEmail = urlParams.get('src') === 'email';
+      const normalPrice = 'R1999';
+      const discountPrice = 'R999';
+      document.getElementById('price').textContent = isEmail ? discountPrice : normalPrice;
+      document.getElementById('offer-note').textContent = isEmail
+        ? 'Subscriber Special – 50% Discount!'
+        : 'Standard Offer – Full Price applies.';
+    }
+    window.onload = showPrice;
+  </script>
+</head>
+<body>
+  <div id="header"></div>
+
+  <main class="offer">
+    <h1>Website Creation Package</h1>
+    <p>Let us build your professional website — fast, functional, and future-ready.</p>
+
+    <ul>
+      <li>Custom design using ChatGPT + GitHub templates</li>
+      <li>Up to 5 pages (Home, About, Contact, Services, Blog)</li>
+      <li>Mobile-friendly and optimized for search engines</li>
+    </ul>
+
+    <h2 id="offer-note"></h2>
+    <p><strong>Price: <span id="price"></span></strong></p>
+
+    <a href="mailto:admin@saphah.net?subject=Website%20Creation%20Order" class="btn">Order Now</a>
+  </main>
+
+  <div id="footer"></div>
+</body>
+</html>
