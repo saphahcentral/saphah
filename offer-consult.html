@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulting & Small Services Package - SAPHAH</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-local.css">
+  <script src="includes-public.js" defer></script>
+  <script>
+    function showPrice() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const isEmail = urlParams.get('src') === 'email';
+      const normalPrice = 'R2999';
+      const discountPrice = 'R1499';
+      document.getElementById('price').textContent = isEmail ? discountPrice : normalPrice;
+      document.getElementById('offer-note').textContent = isEmail
+        ? 'Subscriber Exclusive – 50% Off Consulting Package!'
+        : 'Standard Offer – Full Price applies.';
+    }
+    window.onload = showPrice;
+  </script>
+</head>
+<body>
+  <div id="header"></div>
+
+  <main class="offer">
+    <h1>Consulting & Small Services Package</h1>
+    <p>We help refine your site, optimize your SEO, and guide your marketing strategy for better results.</p>
+
+    <ul>
+      <li>Personal consulting (1-on-1 via email)</li>
+      <li>SEO audit and keyword recommendations</li>
+      <li>Fixes for layout, speed, and usability</li>
+    </ul>
+
+    <h2 id="offer-note"></h2>
+    <p><strong>Price: <span id="price"></span></strong></p>
+
+    <a href="mailto:admin@saphah.net?subject=Consulting%20Package%20Order" class="btn">Order Now</a>
+  </main>
+
+  <div id="footer"></div>
+</body>
+</html>
