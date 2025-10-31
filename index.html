@@ -5,35 +5,39 @@
   <title>Saphaḥ Central Hub</title>
   <meta name="description" content="Saphaḥ Central Hub: Access all Saphaḥ projects including support, training, warning services, and resource libraries.">
   <meta name="keywords" content="Saphaḥ, DOM6027, SCS6027, DOTS6027, DOWS6027, SOAR2024, resource library, ministry support, training services, warning services">
+
+  <!-- Public Style -->
   <link rel="stylesheet" href="https://saphahcentral.github.io/saphah/style-public.css">
+
+  <!-- Dynamic Includes -->
+  <script src="includes-public.js" defer></script>
 </head>
+
 <body>
-  <h1>Welcome to Saphaḥ Central</h1>
-  <p>This is the hub for all Saphaḥ projects:</p>
-  <ul>
-    <li><a href="https://saphahcentral.github.io/scs6027/index.html">Saphah Central Support</a></li>
-    <li><a href="https://saphahcentral.github.io/dom6027/index.html">Derech Olam Ministries Int'l</a></li>
-    <li><a href="https://saphahcentral.github.io/dots6027/index.html">Derech Olam Training Services</a></li>
-    <li><a href="https://saphahcentral.github.io/dows6027/index.html">Derech Olam Warning Services</a></li>
-    <li><a href="https://saphahcentral.github.io/soar2024/index.html">SOAR Support Services</a></li>
-  </ul>
+  <!-- Dynamic Header -->
+  <div id="header-include" data-include="header.html"></div>
+
+  <!-- Dynamic Navigation -->
+  <div id="nav-include" data-include="nav.html"></div>
+
+  <!-- Main Body Content -->
+  <main style="text-align:center; margin: 40px auto; max-width:800px;">
+    <h2>Welcome to Saphaḥ Central</h2>
+    <p>
+      This is the unified hub for all Saphaḥ projects.  
+      Select a service below to explore or access specific resources.
+    </p>
+
+    <ul style="list-style:none; padding:0;">
+      <li><a href="https://saphahcentral.github.io/scs6027/index.html">Saphah Central Support</a></li>
+      <li><a href="https://saphahcentral.github.io/dom6027/index.html">Derech Olam Ministries Int'l</a></li>
+      <li><a href="https://saphahcentral.github.io/dots6027/index.html">Derech Olam Training Services</a></li>
+      <li><a href="https://saphahcentral.github.io/dows6027/index.html">Derech Olam Warning Services</a></li>
+      <li><a href="https://saphahcentral.github.io/soar2024/index.html">SOAR Support Services</a></li>
+    </ul>
+  </main>
+
+  <!-- Dynamic Footer -->
+  <div id="footer-include" data-include="footer.html"></div>
 </body>
-
-  <hr />
-  <div style="text-align:center; margin: 20px 0; font-family:monospace;">
-    <a href="https://saphahcentral.github.io/saphahcentral/saphah/index.html"
-       style="color:blue; background-color:wheat; text-decoration:underline; font-weight:bold;">
-      MAIN HUB
-    </a>
-    |
-    <a href="https://github.com/saphahcentral/dom6027-library"
-       style="color:blue; background-color:wheat; text-decoration:underline; font-weight:bold;">
-      MORE RESOURCES
-    </a>
-  </div>
-  <hr />
-
-<footer>
-    <a href="https://www.activesearchresults.com/help/about.php">Active Search Results (ASR)</a> is an independent Internet Search Engine using a proprietary page ranking technology with Millions of popular Web sites indexed.
-</footer>
 </html>
