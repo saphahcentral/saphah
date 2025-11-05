@@ -1,109 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Unsubscribe | Saphaḥ Central</title>
-  <style>
-    body { font-family: Arial, sans-serif; background:#fafafa; color:#222; margin:0; text-align:center; }
-    header, footer { background:#222; color:#fff; padding:10px 0; }
-    main { padding:50px 20px; }
-    .card { background:#fff; max-width:560px; margin:30px auto; padding:28px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.06); text-align:left; }
-    h1 { color:#b10000; margin:0 0 8px; font-size:1.3rem; }
-    p { margin:0 0 12px; color:#333; }
-    .ok { color:green; font-weight:600; }
-    .err { color:#b10000; font-weight:600; }
-    .small { font-size:0.95rem; color:#666; }
-    a { color:#b10000; text-decoration:none; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Unsubscribe from Saphaḥ Updates</title>
+
+<script src="includes-public.js" defer></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<style>
+body { font-family: system-ui, sans-serif; max-width:600px; margin:60px auto; padding:20px; text-align:center; background:#fafafa; }
+button { background:#990000; color:white; border:none; padding:12px 20px; border-radius:8px; font-size:16px; cursor:pointer; margin-top:10px; }
+button:hover { background:#cc0000; }
+#message { margin-top:20px; font-size:15px; color:#333; }
+</style>
 </head>
 <body>
-  <header>
-    <h2>Saphaḥ Central</h2>
-  </header>
 
-  <main>
-    <div class="card" id="card">
-      <h1>Unsubscribe</h1>
-      <div id="content">
-        <p class="small">Processing your unsubscribe request…</p>
-      </div>
-    </div>
-  </main>
+<div id="header-include"></div>
 
-  <footer>
-    <p>&copy; <span id="year"></span> Saphaḥ Central</p>
-  </footer>
+<main>
+<h1>Unsubscribe from Saphaḥ Updates</h1>
+<p>Sign in with Google to unsubscribe from the mailing list.</p>
+<div id="googleSignIn"></div>
+<div id="message"></div>
+</main>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import {
-      getFirestore,
-      doc,
-      getDoc,
-      updateDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+<div id="footer-include"></div>
 
-    // ----- REPLACE with your Firebase config -----
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID"
-    };
-    // ---------------------------------------------
+<script>
+function handleCredentialResponse(credential) {
+  fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + credential)
+  .then(res => res.json())
+  .then(payload => {
+    const email = payload.email;
+    if (!email) throw new Error('No email returned');
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    document.getElementById('message').innerText='Processing unsubscribe...';
+    return fetch('https://saphahemailservices.vercel.app/api/unsubscribe', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email})
+    });
+  })
+  .then(res => res.ok ? document.getElementById('message').innerText='You have been unsubscribed successfully.' : res.json().then(e=>{throw new Error(e.message||'Error')}))
+  .catch(err => document.getElementById('message').innerText='Error: '+err.message);
+}
 
-    const content = document.getElementById('content');
-    const params = new URLSearchParams(window.location.search);
-    const rawEmail = params.get('email');
+function initGoogleSignIn(){
+  google.accounts.id.initialize({
+    client_id:'YOUR_GOOGLE_CLIENT_ID',
+    callback:handleCredentialResponse
+  });
+  google.accounts.id.renderButton(
+    document.getElementById('googleSignIn'),
+    { theme:'outline', size:'large', width:'250' }
+  );
+}
 
-    // Normalize email: lower-case trimmed
-    const email = rawEmail ? rawEmail.trim().toLowerCase() : null;
+window.onload = initGoogleSignIn;
+</script>
 
-    function showMessage(html, ok = true) {
-      content.innerHTML = html;
-      if (ok) content.querySelector('p')?.classList.add('ok');
-      else content.querySelector('p')?.classList.add('err');
-    }
-
-    async function processUnsubscribe() {
-      if (!email) {
-        showMessage('<p class="err">No email address provided. Please use the link in your email to unsubscribe.</p>', false);
-        return;
-      }
-
-      content.innerHTML = `<p class="small">Searching for <strong>${email}</strong> in our subscriber list…</p>`;
-
-      try {
-        // Assumes Firestore doc ID is the email (adjust if you use a different key)
-        const ref = doc(db, 'SUBSCRIBE', email);
-        const snap = await getDoc(ref);
-
-        if (!snap.exists()) {
-          showMessage(`<p class="err">No subscription found for <strong>${email}</strong>. If you believe this is an error, please contact support.</p>`, false);
-          return;
-        }
-
-        // Update the existing subscriber doc — do NOT create a new doc
-        await updateDoc(ref, {
-          unsubscribe: true,
-          nextDate: null,
-          unsubscribed_at: serverTimestamp()
-        });
-
-        showMessage(`<p class="ok">Success — <strong>${email}</strong> has been unsubscribed.<br>You will no longer receive emails from this series.</p>`, true);
-      } catch (err) {
-        console.error('Unsubscribe error:', err);
-        showMessage(`<p class="err">Unable to unsubscribe at this time. Error: ${err.message}</p>`, false);
-      }
-    }
-
-    // Run when page loads
-    processUnsubscribe();
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
