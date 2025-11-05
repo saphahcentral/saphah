@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Unsubscribe | Saphaḥ Central</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#fafafa; color:#222; margin:0; text-align:center; }
+    header, footer { background:#222; color:#fff; padding:10px 0; }
+    main { padding:50px 20px; }
+    .card { background:#fff; max-width:560px; margin:30px auto; padding:28px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.06); text-align:left; }
+    h1 { color:#b10000; margin:0 0 8px; font-size:1.3rem; }
+    p { margin:0 0 12px; color:#333; }
+    .ok { color:green; font-weight:600; }
+    .err { color:#b10000; font-weight:600; }
+    .small { font-size:0.95rem; color:#666; }
+    a { color:#b10000; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Saphaḥ Central</h2>
+  </header>
+
+  <main>
+    <div class="card" id="card">
+      <h1>Unsubscribe</h1>
+      <div id="content">
+        <p class="small">Processing your unsubscribe request…</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; <span id="year"></span> Saphaḥ Central</p>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      updateDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+    // ----- REPLACE with your Firebase config -----
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID"
+    };
+    // ---------------------------------------------
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const content = document.getElementById('content');
+    const params = new URLSearchParams(window.location.search);
+    const rawEmail = params.get('email');
+
+    // Normalize email: lower-case trimmed
+    const email = rawEmail ? rawEmail.trim().toLowerCase() : null;
+
+    function showMessage(html, ok = true) {
+      content.innerHTML = html;
+      if (ok) content.querySelector('p')?.classList.add('ok');
+      else content.querySelector('p')?.classList.add('err');
+    }
+
+    async function processUnsubscribe() {
+      if (!email) {
+        showMessage('<p class="err">No email address provided. Please use the link in your email to unsubscribe.</p>', false);
+        return;
+      }
+
+      content.innerHTML = `<p class="small">Searching for <strong>${email}</strong> in our subscriber list…</p>`;
+
+      try {
+        // Assumes Firestore doc ID is the email (adjust if you use a different key)
+        const ref = doc(db, 'SUBSCRIBE', email);
+        const snap = await getDoc(ref);
+
+        if (!snap.exists()) {
+          showMessage(`<p class="err">No subscription found for <strong>${email}</strong>. If you believe this is an error, please contact support.</p>`, false);
+          return;
+        }
+
+        // Update the existing subscriber doc — do NOT create a new doc
+        await updateDoc(ref, {
+          unsubscribe: true,
+          nextDate: null,
+          unsubscribed_at: serverTimestamp()
+        });
+
+        showMessage(`<p class="ok">Success — <strong>${email}</strong> has been unsubscribed.<br>You will no longer receive emails from this series.</p>`, true);
+      } catch (err) {
+        console.error('Unsubscribe error:', err);
+        showMessage(`<p class="err">Unable to unsubscribe at this time. Error: ${err.message}</p>`, false);
+      }
+    }
+
+    // Run when page loads
+    processUnsubscribe();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
