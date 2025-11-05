@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Subscribe to Saphaḥ Updates</title>
+
+<!-- Include public HEADER/FOOTER -->
+<script src="includes-public.js" defer></script>
+
+<!-- Google Sign-In -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<style>
+body { font-family: system-ui, sans-serif; max-width: 600px; margin:60px auto; padding:20px; text-align:center; background:#fafafa; }
+button { background:#003366; color:white; border:none; padding:12px 20px; border-radius:8px; font-size:16px; cursor:pointer; margin-top:10px; }
+button:hover { background:#004c99; }
+#message { margin-top:20px; font-size:15px; color:#333; }
+</style>
+</head>
+<body>
+
+<div id="header-include"></div>
+
+<main>
+<h1>Subscribe to Saphaḥ Updates</h1>
+<p>Sign in with Google to receive the latest messages.</p>
+<div id="googleSignIn"></div>
+<div id="message"></div>
+</main>
+
+<div id="footer-include"></div>
+
+<script>
+function handleCredentialResponse(credential) {
+  fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + credential)
+  .then(res => res.json())
+  .then(payload => {
+    const email = payload.email, name = payload.name || "";
+    if (!email) throw new Error('No email returned');
+
+    document.getElementById('message').innerText = 'Submitting subscription...';
+    return fetch('https://saphahemailservices.vercel.app/api/subscribe', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,name})
+    });
+  })
+  .then(res => res.ok ? document.getElementById('message').innerText='Thank you! You’re now subscribed. A welcome email will arrive soon.' : res.json().then(e=>{throw new Error(e.message||'Error')}))
+  .catch(err => document.getElementById('message').innerText='Error: '+err.message);
+}
+
+function initGoogleSignIn(){
+  google.accounts.id.initialize({
+    client_id:'YOUR_GOOGLE_CLIENT_ID',
+    callback:handleCredentialResponse
+  });
+  google.accounts.id.renderButton(
+    document.getElementById('googleSignIn'),
+    { theme:'outline', size:'large', width:'250' }
+  );
+}
+
+window.onload = initGoogleSignIn;
+</script>
+
+</body>
+</html>
