@@ -23,14 +23,14 @@
   <a href="https://saphahcentral.github.io/dom6027/index.html" target="_blank"><img src="RECOMMENDS.png" alt="RECOMMENDS BANNER" width="1000" height="250"></a>
   <br />
   <p style="color:red; font-size:14px; text-align:center; font-weight:bold; margin-top:10px;">Please scroll down for recommended site</p>
- </div>
+</div>
 
 <hr />
 
 <script type="text/javascript" src="https://hungryforhits.com/widgetads_show.php?widgetid=286"></script>
-  
+
 <hr />
-  
+
 <!-- Remove Frame link -->
 <a id="remove-frame" href="#" target="_blank">OPEN SITE IN NEW TAB</a>
 
@@ -38,8 +38,12 @@
 <iframe id="rotator-frame" src="" width="100%" height="600" style="border:none; overflow:auto;"></iframe>
 
 <script>
+// Detect the referring domain
+const source = document.referrer;
+const sourceDomain = source ? new URL(source).hostname : "";
+
 // List of index.html pages to rotate
-const pages = [
+let pages = [
   "https://saphahcentral.github.io/saphah/index.html",
   "https://saphahcentral.github.io/saphah/splash.html",
   "https://saphahcentral.github.io/soar2024/index.html",
@@ -61,7 +65,12 @@ const pages = [
   "https://llpgpro.com/rtzsizzle/duck/"
 ];
 
-// Select one page at random
+// Filter out any page containing the referring domain
+if (sourceDomain) {
+  pages = pages.filter(p => !p.includes(sourceDomain));
+}
+
+// Select one page at random AFTER filtering
 const randomPage = pages[Math.floor(Math.random() * pages.length)];
 
 // Load into iframe
