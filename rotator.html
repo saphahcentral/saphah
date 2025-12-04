@@ -15,34 +15,62 @@
     height: 600px;
     border: 2px solid #00FF00;
   }
+
+  /* Optional: Light responsive tweak */
+  @media (max-width: 800px) {
+    .top-table {
+      display: block;
+    }
+    .top-left, .top-right {
+      display: block;
+      width: 100% !important;
+      text-align:center !important;
+    }
+    .top-right div {
+      transform-origin: top center !important;
+      margin-top: 10px;
+    }
+  }
 </style>
 </head>
 <body>
 
-<div style="text-align:center; margin-bottom:20px;">
-  <a href="https://saphahcentral.github.io/dom6027/index.html" target="_blank"><img src="RECOMMENDS.png" alt="RECOMMENDS BANNER" width="1000" height="250"></a>
-  <br />
-  <p style="color:red; font-size:14px; text-align:center; font-weight:bold; margin-top:10px;">Please scroll down for recommended site</p>
-</div>
+<!-- TOP DISPLAY SECTION -->
+<table class="top-table" width="100%" style="margin-bottom:20px;">
+  <tr>
+    <!-- LEFT: Banner -->
+    <td class="top-left" style="width:60%; text-align:left; vertical-align:top;">
+      <a href="https://saphahcentral.github.io/dom6027/index.html" target="_blank">
+        <img src="RECOMMENDS.png" alt="RECOMMENDS BANNER" style="max-width:95%; height:auto;">
+      </a>
+      <p style="color:red; font-size:14px; font-weight:bold; text-align:center; margin-top:5px;">
+        Please scroll down for recommended site
+      </p>
+    </td>
+
+    <!-- RIGHT: H4H Code (50% reduced) -->
+    <td class="top-right" style="width:40%; text-align:right; vertical-align:top;">
+      <div style="transform:scale(0.50); transform-origin: top right;">
+        <script type="text/javascript" src="https://hungryforhits.com/widgetads_show.php?widgetid=286"></script>
+      </div>
+    </td>
+  </tr>
+</table>
 
 <hr />
 
-<script type="text/javascript" src="https://hungryforhits.com/widgetads_show.php?widgetid=286"></script>
-
-<hr />
-
-<!-- Remove Frame link -->
+<!-- Remove Frame Button -->
 <a id="remove-frame" href="#" target="_blank">OPEN SITE IN NEW TAB</a>
 
-<!-- Website In Frame -->
+<!-- Website Rotator -->
 <iframe id="rotator-frame" src="" width="100%" height="600" style="border:none; overflow:auto;"></iframe>
 
 <script>
-// Detect the referring domain
+// Detect referring domain
 const source = document.referrer;
 const sourceDomain = source ? new URL(source).hostname : "";
 
-// List of index.html pages to rotate
+// List of index pages to rotate
 let pages = [
   "https://saphahcentral.github.io/saphah/index.html",
   "https://saphahcentral.github.io/saphah/splash.html",
@@ -66,15 +94,13 @@ let pages = [
   "https://llpgpro.com/rtzsizzle/duck/"
 ];
 
-// Filter out any page containing the referring domain
+// Filter out any page matching referring source
 if (sourceDomain) {
   pages = pages.filter(p => !p.includes(sourceDomain));
 }
 
-// Select one page at random AFTER filtering
+// Random rotation
 const randomPage = pages[Math.floor(Math.random() * pages.length)];
-
-// Load into iframe
 document.getElementById("rotator-frame").src = randomPage;
 </script>
 
