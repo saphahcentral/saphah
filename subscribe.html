@@ -3,49 +3,43 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Subscribe to Saphaḥ Updates</title>
+<title>Start Your Digital Survival Training | SaphaḥCentral</title>
 
 <!-- Include public HEADER/FOOTER -->
 <script src="includes-public.js" defer></script>
 
 <!-- Google Sign-In -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://accounts.google.com/gsi/client" defer></script>
 
-<style>
-body { font-family: system-ui, sans-serif; max-width: 600px; margin:60px auto; padding:20px; text-align:center; background:#fafafa; }
-button { background:#003366; color:white; border:none; padding:12px 20px; border-radius:8px; font-size:16px; cursor:pointer; margin-top:10px; }
-button:hover { background:#004c99; }
-#message { margin-top:20px; font-size:15px; color:#333; }
-</style>
-</head>
-<body>
-
-<div id="header-include"></div>
-
-<main>
-<h1>Subscribe to Saphaḥ Updates</h1>
-<p>Sign in with Google to receive the latest messages.</p>
-<div id="googleSignIn"></div>
-<div id="message"></div>
-</main>
-
-<div id="footer-include"></div>
-
-<script>
-function handleCredentialResponse(credential) {
-  fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + credential)
+<script defer>
+function handleCredentialResponse(response) {
+  fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + response.credential)
   .then(res => res.json())
   .then(payload => {
-    const email = payload.email, name = payload.name || "";
+    const email = payload.email;
+    const name = payload.name || "";
+
     if (!email) throw new Error('No email returned');
 
-    document.getElementById('message').innerText = 'Submitting subscription...';
+    document.getElementById('message').innerText = 'Enrolling you into the Digital Survival System...';
+
     return fetch('https://saphahemailservices.vercel.app/api/subscribe', {
-      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,name})
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email, name})
     });
   })
-  .then(res => res.ok ? document.getElementById('message').innerText='Thank you! You’re now subscribed. A welcome email will arrive soon.' : res.json().then(e=>{throw new Error(e.message||'Error')}))
-  .catch(err => document.getElementById('message').innerText='Error: '+err.message);
+  .then(res => {
+    if (res.ok) {
+      document.getElementById('message').innerHTML =
+        "<strong>You're in.</strong><br/>Level 1 will arrive in your inbox shortly.";
+    } else {
+      return res.json().then(e => { throw new Error(e.message || 'Subscription failed'); });
+    }
+  })
+  .catch(err => {
+    document.getElementById('message').innerText = 'Error: ' + err.message;
+  });
 }
 
 function initGoogleSignIn(){
@@ -55,12 +49,151 @@ function initGoogleSignIn(){
   });
   google.accounts.id.renderButton(
     document.getElementById('googleSignIn'),
-    { theme:'outline', size:'large', width:'250' }
+    { theme:'outline', size:'large', width:'280' }
   );
 }
 
-window.onload = initGoogleSignIn;
+window.addEventListener('load', initGoogleSignIn);
 </script>
+
+<style>
+body {
+  font-family: system-ui, sans-serif;
+  max-width: 820px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #fafafa;
+  color: #222;
+  line-height: 1.6;
+}
+
+h1 { font-size: 30px; margin-bottom: 10px; }
+h2 { margin-top: 40px; }
+
+.hero { text-align: center; margin-bottom: 40px; }
+
+.cta-box {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+#googleSignIn { margin-top: 20px; }
+
+#message {
+  margin-top: 20px;
+  font-size: 15px;
+  color: #003366;
+}
+
+.highlight {
+  font-weight: bold;
+  color: #003366;
+}
+
+ul { margin-left: 20px; }
+
+footer-note {
+  font-size: 14px;
+  color: #666;
+}
+</style>
+
+</head>
+<body>
+
+<div id="header-include"></div>
+
+<main>
+
+<section class="hero">
+  <h1>Stop Wandering the Internet.<br>Start Navigating It Strategically.</h1>
+  <p>
+    Before you build a website.<br>
+    Before you invest in another tool.<br>
+    Before you waste another rand online.
+  </p>
+  <p class="highlight">
+    Go through this first.
+  </p>
+</section>
+
+<section>
+  <h2>The Internet Survival Cyclone</h2>
+  <p>
+    A structured 3-Level Digital Survival System delivered step-by-step to your inbox.
+  </p>
+
+  <p>
+    This is not a newsletter.  
+    This is not hype.  
+    This is not a get-rich scheme.
+  </p>
+
+  <p>
+    It is structured training designed to help you:
+  </p>
+
+  <ul>
+    <li>Understand how the online world really works</li>
+    <li>Avoid common traps and costly mistakes</li>
+    <li>Build digital assets instead of digital clutter</li>
+    <li>Position yourself intelligently online</li>
+    <li>Move forward with clarity and control</li>
+  </ul>
+</section>
+
+<section>
+  <h2>How It Works</h2>
+
+  <p><strong>Level 1 – Survival</strong><br>
+  Learn the rules. Avoid the traps. Understand the terrain.</p>
+
+  <p><strong>Level 2 – Structure</strong><br>
+  Discover how digital assets, websites, and income systems actually function.</p>
+
+  <p><strong>Level 3 – Build & Stabilize</strong><br>
+  Move forward intelligently. Build something that lasts.</p>
+
+  <p>
+    36 structured emails.  
+    Delivered one step at a time.  
+    Designed to prevent overwhelm.
+  </p>
+</section>
+
+<section>
+  <h2>Built-In Progress Rewards</h2>
+  <p>
+    At the completion of each level, you unlock:
+  </p>
+  <ul>
+    <li>Exclusive 50% discount access to ready-built systems</li>
+    <li>Strategic implementation tools</li>
+  </ul>
+  <p>
+    Earned progression. Not pressure.
+  </p>
+</section>
+
+<section class="cta-box">
+  <h2>Start Your Digital Survival Training — Free</h2>
+  <p>
+    Enter your email and begin Level 1 immediately.
+  </p>
+  <div id="googleSignIn"></div>
+  <div id="message"></div>
+  <p style="font-size:14px; margin-top:15px;">
+    No spam. Structured training only. Unsubscribe anytime.
+  </p>
+</section>
+
+</main>
+
+<div id="footer-include"></div>
 
 </body>
 </html>
