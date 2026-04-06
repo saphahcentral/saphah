@@ -4,19 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SAPHAH CENTRAL Rotator</title>
+
 <link rel="stylesheet" href="https://saphahcentral.github.io/saphah/style-public.css">
+
 <style>
   h2 {
     color: #FFD700;
     margin-bottom: 10px;
   }
+
   iframe {
     width: 100%;
     height: 600px;
     border: 2px solid #00FF00;
   }
 
-  /* Optional: Light responsive tweak */
   @media (max-width: 800px) {
     .top-table {
       display: block;
@@ -33,18 +35,18 @@
   }
 </style>
 </head>
+
 <body>
 
 <!-- TOP DISPLAY SECTION -->
-    <!-- Banner -->
-  <div class="top-left" style="width:100%; text-align:left; vertical-align:top;">
-    <a href="https://saphahcentral.github.io/dom6027/index.html" target="_blank">
-      <img src="RECOMMENDS.png" alt="RECOMMENDS BANNER" style="max-width:95%; height:auto;">
-    </a>
-    <p style="color:red; font-size:14px; font-weight:bold; text-align:center; margin-top:5px;">
-      Please scroll down for recommended site
-    </p>
-  </div>
+<div class="top-left" style="width:100%; text-align:left; vertical-align:top;">
+  <a href="https://saphahcentral.github.io/dom6027/index.html" target="_blank">
+    <img src="RECOMMENDS.png" alt="RECOMMENDS BANNER" style="max-width:95%; height:auto;">
+  </a>
+  <p style="color:red; font-size:14px; font-weight:bold; text-align:center; margin-top:5px;">
+    Please scroll down for recommended site
+  </p>
+</div>
 
 <hr />
 
@@ -59,37 +61,100 @@
 const source = document.referrer;
 const sourceDomain = source ? new URL(source).hostname : "";
 
-// List of index pages to rotate
-let pages = [
-  "https://saphahcentral.github.io/saphah/index.html",
+// =============================
+// 🔴 HIGH PRIORITY (ENTRY / CONVERSION)
+// =============================
+let highPriority = [
+  "https://domg6027.github.io/dom6027/whatsapp-promo.html",     // WhatsApp invite (TOP priority)
+  "https://domg6027.github.io/bookshop/index.html",             // DOM Bookshop
+  "https://saphahcentral.github.io/soar2024/bookshop.html",     // SOAR Bookshop
+  "https://saphahcentral.github.io/soar2024/salesrotator.html", // SOAR Book rotator
+  "https://domg6027.github.io/dom6027/Truthseekers.html"        // Attracting TRUTH SEEKERS
+];
+
+// =============================
+// 🟡 MEDIUM PRIORITY (CORE SERVICES)
+// =============================
+let mediumPriority = [
   "https://saphahcentral.github.io/saphah/offer-create.html",
   "https://saphahcentral.github.io/saphah/offer-consult.html",
   "https://saphahcentral.github.io/saphah/offer-maintain.html",
   "https://saphahcentral.github.io/saphah/subscribe.html",
   "https://saphahcentral.github.io/soar2024/index.html",
-  "https://saphahcentral.github.io/soar2024/bookshop.html",
-  "https://saphahcentral.github.io/soar2024/salesrotator.html",
-  "https://saphahcentral.github.io/dom6027-library/index.html",
-  "https://domg6027.github.io/dots6027/index.html",
-  "https://domg6027.github.io/dom6027/Truthseekers.html",
-  "https://domg6027.github.io/dows6027/message.html",
-  "https://domg6027.github.io/dom6027/index.html",
-  "https://domg6027.github.io/dows6027/index.html",
-  "https://domg6027.github.io/bookshop/index.html",
-  "https://domg6027.github.io/dom6027/whatsapp-promo.html",
-  "https://www.facebook.com/groups/seekersadvertising/",
   "https://www.facebook.com/groups/soar2024bookclub",
+  "https://saphahcentral.github.io/dom6027-library/index.html",
+  "https://domg6027.github.io/dom6027/index.html",
+  "https://domg6027.github.io/dows6027/message.html",
+  "https://domg6027.github.io/dots6027/index.html",
+];
+
+// =============================
+// 🟢 LOW PRIORITY (ARCHIVE / DEPTH)
+// =============================
+let lowPriority = [
+  "https://saphahcentral.github.io/saphah/index.html",
+  "https://domg6027.github.io/main/index.html",
+  "https://domg6027.github.io/dows6027/index.html",
+  "https://www.facebook.com/groups/seekersadvertising/",
   "https://llpgpro.com/rtzsizzle/duck/"
 ];
 
-// Filter out any page matching referring source
-if (sourceDomain) {
-  pages = pages.filter(p => !p.includes(sourceDomain));
+// =============================
+// FILTER OUT REFERRER
+// =============================
+function filterPages(arr) {
+  return sourceDomain ? arr.filter(p => !p.includes(sourceDomain)) : arr;
 }
 
-// Random rotation
-const randomPage = pages[Math.floor(Math.random() * pages.length)];
+highPriority = filterPages(highPriority);
+mediumPriority = filterPages(mediumPriority);
+lowPriority = filterPages(lowPriority);
+
+// =============================
+// WEIGHTED SELECTION
+// =============================
+function pickGroup() {
+  const rand = Math.random();
+
+  if (rand < 0.6) return highPriority;   // 60%
+  if (rand < 0.9) return mediumPriority; // 30%
+  return lowPriority;                    // 10%
+}
+
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// =============================
+// FIRST VISIT BOOST (OPTIONAL BUT ENABLED)
+// =============================
+let selectedGroup;
+
+if (!localStorage.getItem("rotatorVisited")) {
+  selectedGroup = highPriority;
+  localStorage.setItem("rotatorVisited", "true");
+} else {
+  selectedGroup = pickGroup();
+}
+
+// Fallback safety
+if (!selectedGroup || selectedGroup.length === 0) {
+  selectedGroup = [...highPriority, ...mediumPriority, ...lowPriority];
+}
+
+const randomPage = pickRandom(selectedGroup);
+
+// LOAD INTO IFRAME
 document.getElementById("rotator-frame").src = randomPage;
+
+// =============================
+// OPEN IN NEW TAB BUTTON FIX
+// =============================
+document.getElementById("remove-frame").addEventListener("click", function(e) {
+  e.preventDefault();
+  window.open(randomPage, "_blank");
+});
 </script>
+
 </body>
 </html>
