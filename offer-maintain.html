@@ -12,16 +12,18 @@ title: "SEO & Maintenance Package - SAPHAH"
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SEO & Maintenance Package - SAPHAH</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="style-local.css">
-  <script src="includes-public.js" defer></script>
+  <link rel="stylesheet" href="https://saphahcentral.github.io/saphah/style.css">
+  <link rel="stylesheet" href="https://saphahcentral.github.io/saphah/style-local.css">
+  <script src="https://saphahcentral.github.io/saphah/includes-public.js" defer></script>
   <script>
     function showPrice() {
       const urlParams = new URLSearchParams(window.location.search);
       const isEmail = urlParams.get('src') === 'email';
-      const normalPrice = 'R4999';
-      const discountPrice = 'R2499';
-      document.getElementById('price').textContent = isEmail ? discountPrice : normalPrice;
+      const normalPrice = '$499';
+      const discountPrice = '$249';
+      document.getElementById('price').innerHTML = isEmail
+        ? '<s>$499</s> $249'
+        : normalPrice;
       document.getElementById('offer-note').textContent = isEmail
         ? 'Exclusive Tornado Funnel Subscriber Offer – 50% Off!'
         : 'Standard Offer – Full Price applies.';
@@ -43,9 +45,9 @@ title: "SEO & Maintenance Package - SAPHAH"
     </ul>
 
     <h2 id="offer-note"></h2>
-    <p><strong>Price: <span id="price"></span></strong></p>
+    <p><strong>Price: <span id="price"></span> — 12 Months, Once-Off Payment</strong></p>
 
-    <a href="mailto:admin@saphah.net?subject=SEO%20and%20Maintenance%20Order" class="btn">Order Now</a>
+    <a href="mailto:saphahcentralservices@gmail.com?subject=SEO%20and%20Maintenance%20Order" class="btn">Order Now</a>
   </main>
 
   <div id="footer"></div>
