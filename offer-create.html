@@ -12,16 +12,18 @@ title: "Website Creation Package - SAPHAH"
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Website Creation Package - SAPHAH</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="style-local.css">
-  <script src="includes-public.js" defer></script>
+  <link rel="stylesheet" href="https://saphahcentral.github.io/saphah/style.css">
+  <link rel="stylesheet" href="https://saphahcentral.github.io/saphah/style-local.css">
+  <script src="https://saphahcentral.github.io/saphah/includes-public.js" defer></script>
   <script>
     function showPrice() {
       const urlParams = new URLSearchParams(window.location.search);
       const isEmail = urlParams.get('src') === 'email';
-      const normalPrice = 'R1999';
-      const discountPrice = 'R999';
-      document.getElementById('price').textContent = isEmail ? discountPrice : normalPrice;
+      const normalPrice = '$199';
+      const discountPrice = '$99';
+      document.getElementById('price').innerHTML = isEmail
+        ? '<s>$199</s> $99'
+        : normalPrice;
       document.getElementById('offer-note').textContent = isEmail
         ? 'Subscriber Special – 50% Discount!'
         : 'Standard Offer – Full Price applies.';
@@ -43,9 +45,9 @@ title: "Website Creation Package - SAPHAH"
     </ul>
 
     <h2 id="offer-note"></h2>
-    <p><strong>Price: <span id="price"></span></strong></p>
+    <p><strong>Price: <span id="price"></span> — Once-Off Payment</strong></p>
 
-    <a href="mailto:admin@saphah.net?subject=Website%20Creation%20Order" class="btn">Order Now</a>
+    <a href="mailto:saphahcentralservices@gmail.com?subject=Website%20Creation%20Order" class="btn">Order Now</a>
   </main>
 
   <div id="footer"></div>
