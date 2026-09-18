@@ -71,39 +71,19 @@ const source = document.referrer;
 const sourceDomain = source ? new URL(source).hostname : "";
 
 // =============================
-// 🔴 HIGH PRIORITY (ENTRY / CONVERSION)
+// 🔴 HIGH PRIORITY
 // =============================
-let highPriority = [
-  "https://saphahcentral.github.io/saphah/offer-create.html",
-  "https://saphahcentral.github.io/saphah/offer-consult.html",
-  "https://saphahcentral.github.io/saphah/offer-maintain.html",
-  "https://saphahcentral.github.io/saphah/subscribe.html",
-  "https://domg6027.github.io/dom6027/whatsapp-promo.html",
-  "https://domg6027.github.io/dom6027/message.html",
-  "https://domg6027.github.io/bookshop/index.html",
-  "https://saphahcentral.github.io/soar2024/bookshop.html",
-  "https://saphahcentral.github.io/soar2024/salesrotator.html",
-  "https://domg6027.github.io/dom6027/Truthseekers.html",
-  "https://members.thetrafficplatform.com/free_website_traffic.asp?rid=10801",
-  "https://www.thetrafficplatform.com/home.asp?rid=10801&p=1",
-  "https://docs.google.com/document/d/1-7Q4TozRDERC0Til6c_2c_dvxSjN7bt8jWjEqCtPZZc/edit?usp=sharing",
-  "https://scss6027.github.io/saphah-ads/index.html"
-];
+let highPriority = [];
 
 // =============================
-// 🟡 MEDIUM PRIORITY (Loaded from JSON)
+// 🟡 MEDIUM PRIORITY
 // =============================
 let mediumPriority = [];
 
 // =============================
-// 🟢 LOW PRIORITY (ARCHIVE / DEPTH)
+// 🟢 LOW PRIORITY
 // =============================
-let lowPriority = [
-  "https://saphahcentral.github.io/saphah/index.html",
-  "https://domg6027.github.io/central/index.html",
-  "https://domg6027.github.io/dows6027/index.html",
-  "https://llpgpro.com/rtzsizzle/duck/"
-];
+let lowPriority = [];
 
 // =============================
 // FILTER OUT REFERRER
@@ -168,24 +148,41 @@ function startRotator() {
 }
 
 // =============================
-// LOAD MEDIUM JSON
+// LOAD SITE LISTS
 // =============================
-fetch("https://saphahcentral.github.io/saphah/medium-sites.json")
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("Unable to load MEDIUM PRIORITY SITES list.");
-    }
-    return response.json();
-  })
-  .then(data => {
-    mediumPriority = data;
-    startRotator();
-  })
-  .catch(error => {
-    console.warn("Medium list unavailable.", error);
-    mediumPriority = [];
-    startRotator();
-  });
+Promise.all([
+  fetch("https://saphahcentral.github.io/saphah/medium-sites.json")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Unable to load MEDIUM PRIORITY SITES list.");
+      }
+      return response.json();
+    }),
+
+  fetch("https://saphahcentral.github.io/saphah/other-sites.json")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Unable to load OTHER SITES list.");
+      }
+      return response.json();
+    })
+])
+.then(([mediumData, otherData]) => {
+  mediumPriority = mediumData;
+  highPriority = otherData.high || [];
+  lowPriority = otherData.low || [];
+
+  startRotator();
+})
+.catch(error => {
+  console.warn("One or more site lists unavailable.", error);
+
+  mediumPriority = [];
+  highPriority = [];
+  lowPriority = [];
+
+  startRotator();
+});
 </script>
   
 </body>
